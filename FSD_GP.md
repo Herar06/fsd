@@ -1,22 +1,12 @@
 # Functional Specification Document (FSD)
 ## GuardPulse Smartband System
-**Real-Time Elderly Health Monitoring & Fall Detection System**  
-*Document Version: 3.1*  
-*Date: 2026-06-28*  
-*Target Hardware: ESP32-C3 SuperMini, MAX30102, BMI160, SSD1306 OLED (0.96")*  
-*Companion Platform: Flutter Application (FINALMADE)*  
-*Cloud Platform: Firebase Realtime Database (RTDB)*
-
 ---
 
 ## 1. Document Information
 
 | Field | Details |
 | :--- | :--- |
-| **Title** | Functional Specification Document (FSD) - GuardPulse Smartband System |
 | **Version** | 3.1 (Actual Codebase Revision) |
-| **Date** | June 28, 2026 |
-| **Author** | System Architect / Technical Writer Subagent |
 | **Status** | Approved / Synchronized with Firmware v2 |
 | **Target MCU** | ESP32-C3 SuperMini (160 MHz 32-bit single-core RISC-V, 400 KB SRAM, 4 MB Flash) |
 | **IMU Module** | BMI160 6-axis Accelerometer & Gyroscope (via Bosch Sensortec C API) |
