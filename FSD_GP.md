@@ -30,6 +30,8 @@ The GuardPulse system operates as a distributed IoT network comprising:
 
 ---
 
+<pre>
+                              GuardPulse Smartband
 +---------------------------------------------------------------------------------------------+
 |                                                                                             |
 |  +-------------------+  +-----------------+  +------------------+  +------------------+   |
@@ -83,6 +85,7 @@ The GuardPulse system operates as a distributed IoT network comprising:
 |                           +----------------------+                                          |
 |                                                                                             |
 +---------------------------------------------------------------------------------------------+
+</pre>
 
 ---
 ### 2.3 System Goals
