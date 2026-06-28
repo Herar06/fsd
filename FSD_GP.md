@@ -28,7 +28,8 @@ The GuardPulse system operates as a distributed IoT network comprising:
 2. **Firebase Realtime Database**: Acts as the central telemetry and command routing broker.
 3. **The Flutter Mobile Application (FINALMADE)**: Subscribes to real-time database paths to show vitals, logs historical events, and transmits control commands back to the watch.
 
-                              GuardPulse Smartband
+---
+
 +---------------------------------------------------------------------------------------------+
 |                                                                                             |
 |  +-------------------+  +-----------------+  +------------------+  +------------------+   |
@@ -83,6 +84,7 @@ The GuardPulse system operates as a distributed IoT network comprising:
 |                                                                                             |
 +---------------------------------------------------------------------------------------------+
 
+---
 ### 2.3 System Goals
 * **High Core Loop Responsiveness**: Execute high-frequency sensor readings at 100Hz without latency penalty from cloud or display operations.
 * **Low-Latency Fall Detection**: Detect falls and register alerts within 6 seconds.
