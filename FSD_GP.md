@@ -28,33 +28,60 @@ The GuardPulse system operates as a distributed IoT network comprising:
 2. **Firebase Realtime Database**: Acts as the central telemetry and command routing broker.
 3. **The Flutter Mobile Application (FINALMADE)**: Subscribes to real-time database paths to show vitals, logs historical events, and transmits control commands back to the watch.
 
-```mermaid
-graph TD
-    subgraph Smartband [GuardPulse Smartband]
-        vSensorTask[Sensor Task - 100Hz] --> |dataMutex| sharedData[(sharedData Struct)]
-        vDisplayTask[Display Task - 2Hz] --> |Reads| sharedData
-        vDisplayTask --> |i2cMutex| OLED[SSD1306 OLED Display]
-        vFirebaseTask[Firebase Task - 1.5s] --> |Reads| sharedData
-        vFirebaseTask --> |i2cMutex| Sensors[MAX30102 / BMI160]
-        MainLoop[Arduino loop - 1s] --> |i2cMutex| SelfHeal[I2C Self-Healing Check]
-    end
-
-    subgraph Cloud [Firebase Realtime Database]
-        TelemetryPath["/users/{ownerUID}/devices_data/{deviceUID}/sensor_data"]
-        CommandPath["/users/{ownerUID}/devices_data/{deviceUID}/watch_commands"]
-        DevicePath["/devices/{deviceUID}"]
-    end
-
-    subgraph Companion [Flutter Mobile App - FINALMADE]
-        AppUI[App UI Screen] --> |Read Telemetry| TelemetryPath
-        AppUI --> |Dismiss Alert / Sync Reminders| CommandPath
-        AppUI --> |Pair Device via Code| DevicePath
-    end
-
-    vFirebaseTask --> |Uploads Telemetry| TelemetryPath
-    vFirebaseTask --> |Polls Commands| CommandPath
-    vFirebaseTask --> |checkDeviceStatus| DevicePath
-```
+                              GuardPulse Smartband
++---------------------------------------------------------------------------------------------+
+|                                                                                             |
+|  +-------------------+  +-----------------+  +------------------+  +------------------+   |
+|  |Sensor Task - 100Hz|  |Display Task - 2Hz|  |Firebase Task-1.5s|  | Arduino loop - 1s|   |
+|  +-------------------+  +-----------------+  +------------------+  +------------------+   |
+|           |                  |       |              |       |                |              |
+|       dataMutex           Reads  i2cMutex         Reads  i2cMutex        i2cMutex         |
+|           |                  |       |              |       |                |              |
+|           |                  |       v              |       v                v              |
+|           |                  |  +-----------+       |  +----------+  +----------------+   |
+|           |                  |  | SSD1306   |       |  | MAX30102 |  | I2C Self-      |   |
+|           |                  |  | OLED Disp.|       |  | / BMI160 |  | Healing Check  |   |
+|           +------------------+  +-----------+       |  +----------+  +----------------+   |
+|                              |                      |                                       |
+|                              +----------------------+                                       |
+|                                          |                                                  |
+|                                          v                                                  |
+|                                +--------------------+                                      |
+|                                |  sharedData Struct |                                      |
+|                                +--------------------+                                      |
+|                                                                                             |
++---------------------------------------------------------------------------------------------+
+          |                          |                          |
+  [Uploads Telemetry]         [Polls Commands]         [checkDeviceStatus]
+          |                          |                          |
+          v                          v                          v
++---------------------------------------------------------------------------------------------+
+|                             Firebase Realtime Database                                      |
+|                                                                                             |
+|  +----------------------------------------------------------+                               |
+|  | /users/{ownerUID}/devices_data/{deviceUID}/sensor_data  |                               |
+|  +----------------------------------------------------------+                               |
+|                                                                                             |
+|  +-----------------------------------------------------------+                              |
+|  | /users/{ownerUID}/devices_data/{deviceUID}/watch_commands |                             |
+|  +-----------------------------------------------------------+                              |
+|                                                                                             |
+|  +----------------------------------------------------------+                               |
+|  | /devices/{deviceUID}                                     |                               |
+|  +----------------------------------------------------------+                               |
+|                                                                                             |
++----^------------------------^------------------------------^--------------------------------+
+    |                        |                              |
+[Read Telemetry]  [Dismiss Alert / Sync Reminders]  [Pair Device via Code]
+    |                        |                              |
++---------------------------------------------------------------------------------------------+
+|                          Flutter Mobile App - FINALMADE                                     |
+|                                                                                             |
+|                           +----------------------+                                          |
+|                           |    App UI Screen     |                                          |
+|                           +----------------------+                                          |
+|                                                                                             |
++---------------------------------------------------------------------------------------------+
 
 ### 2.3 System Goals
 * **High Core Loop Responsiveness**: Execute high-frequency sensor readings at 100Hz without latency penalty from cloud or display operations.
