@@ -113,26 +113,22 @@ The device relies on a single shared I2C bus:
   * BMI160 IMU: `0x68` (default, SDO pulled LOW) or `0x69` (fallback, SDO pulled HIGH)
   * SSD1306 OLED: `0x3C` (fixed address)
 
-```
-                       ESP32-C3 SuperMini
+---
+                                            ESP32-C3 SuperMini
                        +----------------+
-                       |   GPIO 8 (SDA) |---+-----------+-----------+
-                       |   GPIO 9 (SCL) |---|-----+-----+-----+     |
-                       +----------------+   |     |     |     |     |
-                                            |     |     |     |     |
-                                            v     v     v     v     v
-                                        +-------------+ +-------------+
-                                        |  MAX30102   | |   BMI160    |
-                                        |   Oximeter  | |     IMU     |
-                                        |   (0x57)    | | (0x68/0x69) |
-                                        +-------------+ +-------------+
-                                                    |     |     |
-                                                    v     v     v
-                                                +-----------------+
-                                                |  SSD1306 OLED   |
-                                                |     (0x3C)      |
-                                                +-----------------+
-```
+                       |   GPIO 8 (SDA) |---+-----------+-----------+-----------+
+                       |   GPIO 9 (SCL) |---|-----+-----+-----+-----+-----+     |
+                       +----------------+   |     |     |     |     |     |     |
+                                            |     |     |     |     |     |     |
+                                            v     v     v     v     v     v     v
+                                        +-------------+ +-------------+ +-------------+
+                                        |  MAX30102   | |   BMI160    | |  SSD1306    |
+                                        |   Oximeter  | |     IMU     | |   OLED      |
+                                        |   (0x57)    | | (0x68/0x69) | |   (0x3C)    |
+                                        +-------------+ +-------------+ +-------------+
+
+---
+
 
 ### 3.3 OLED Display Layouts
 The SSD1306 display features five dynamic UI layouts:
