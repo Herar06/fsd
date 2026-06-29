@@ -141,12 +141,8 @@ The SSD1306 display features five dynamic UI layouts:
 2. **Emergency Mode (Fall Detected)**: Triggered immediately when `isFall == true`. 
    * `"EMERGENCY!"` is centered and displayed at **Text Size 2** (Cursor: x=4, y=12).
    * `"FALL DETECTED!"` is centered and displayed at **Text Size 1** (Cursor: x=22, y=38).
-3. **Drug Reminder Mode**: Displays medicine reminders sent by the caregiver app. 
-   * Header `"DRUG REMINDER:"` is written at **Text Size 1** (Cursor: x=0, y=0).
-   * **Safe-length font rendering**: If the medicine name is longer than 10 characters, it is rendered at **Text Size 1** (Cursor: x=0, y=20) to prevent text clipping; otherwise, it is rendered at **Text Size 2** (Cursor: x=0, y=16).
-   * Time string is printed at the bottom: `"Time: [HH:MM]"` at **Text Size 1** (Cursor: x=0, y=48).
-4. **No Presence (Wear Device) Mode**: Triggered if the raw IR reflection is below 20,000. Renders text `"Please wear \nthe device..."` at **Text Size 1** centered vertically (Cursor: x=0, y=28).
-5. **Vitals Normal Mode**: Displays real-time vitals:
+3. **No Presence (Wear Device) Mode**: Triggered if the raw IR reflection is below 20,000. Renders text `"Please wear \nthe device..."` at **Text Size 1** centered vertically (Cursor: x=0, y=28).
+4. **Vitals Normal Mode**: Displays real-time vitals:
    * Labels `"Heart Rate:"` and `"SpO2:"` are written at **Text Size 1** (Cursor: y=0 and y=36).
    * Value fields are written at **Text Size 2** (Cursor: y=12 and y=48).
    * Displays unit strings `" BPM"` and `" %"` at **Text Size 1** next to the values.
