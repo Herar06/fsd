@@ -62,11 +62,11 @@ The GuardPulse system operates as a distributed IoT network comprising:
 |                             Firebase Realtime Database                                      |
 |                                                                                             |
 |  +----------------------------------------------------------+                               |
-|  | /users/{ownerUID}/devices_data/{deviceUID}/sensor_data  |                               |
+|  | /users/{ownerUID}/devices_data/{deviceUID}/sensor_data  |                                |
 |  +----------------------------------------------------------+                               |
 |                                                                                             |
 |  +-----------------------------------------------------------+                              |
-|  | /users/{ownerUID}/devices_data/{deviceUID}/watch_commands |                             |
+|  | /users/{ownerUID}/devices_data/{deviceUID}/watch_commands |                              |
 |  +-----------------------------------------------------------+                              |
 |                                                                                             |
 |  +----------------------------------------------------------+                               |
