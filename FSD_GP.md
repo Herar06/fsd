@@ -321,9 +321,7 @@ vSensorTask (100Hz)                   vDisplayTask (2Hz)                  vFireb
   * **Dismiss Alert Command**: If `watch_commands/fall_alert/active` is set to `false`, the system **SHALL** take the data mutex, clear the local fall flag, and reset the IMU state machine using `fallSensor.clearFall()`.
   * **Medicine Reminder Command**: If `watch_commands/medicine_reminder/active` is set to `true`, the system **SHALL** download the medicine name, execution time, and trigger timestamp.
 * **CONN-010**: The system **SHALL** synchronize its clock using NTP servers (`pool.ntp.org` and `time.nist.gov`) at startup.
-* **CONN-011**: Medicine reminders **SHALL** be displayed on the OLED screen only for **15 seconds** after the reminder trigger timestamp. The system evaluates this time limit using:
-  $$\text{elapsedSeconds} = \text{currentTime} - \frac{\text{triggeredAt\_ms}}{1000}$$
-  If $\text{elapsedSeconds} \ge 15$ or the active flag is false, the reminder display is dismissed.
+* **CONN-011**: Medicine reminders **SHALL** be displayed on the OLED screen only for **15 seconds** after the reminder trigger timestamp. The system evaluates this time 
 
 ### 5.5 Fault Tolerance & Self-Healing
 * **HEAL-001**: The system **SHALL** execute an I2C self-healing check every **1 second** within the main `loop()` thread.
