@@ -154,37 +154,51 @@ The software stack uses a modular, layered design wrapping low-level C libraries
 * **`Bmi160Agent`**: Handles device register read/write using static wrappers over the official Bosch API. Tracks IMU acceleration values and coordinates power modes and state machine logic.
 * **`OledDisplay`**: Wraps the Adafruit SSD1306 & GFX library routines to draw screens.
 
-```mermaid
-graph TD
-    subgraph Drivers [Low-Level Drivers]
-        Wire[Arduino Wire Library]
-        BoschAPI[Bosch BMI160 C API]
-        MAXReg[max30102.cpp Registers]
-    end
-
-    subgraph Agents [C++ Wrapper Agents]
-        Bmi160Agent[Bmi160Agent.cpp]
-        Max30102Agent[Max30102Agent.cpp]
-        OledDisplay[oled.cpp]
-    end
-
-    subgraph Core [Core Logic & Tasks]
-        main[main.cpp]
-        vSensorTask[vSensorTask]
-        vDisplayTask[vDisplayTask]
-        vFirebaseTask[vFirebaseUploadTask]
-    end
-
-    Wire --> BoschAPI
-    Wire --> MAXReg
-    BoschAPI --> Bmi160Agent
-    MAXReg --> Max30102Agent
-    OledDisplay --> |I2C commands| Wire
-
-    Bmi160Agent --> vSensorTask
-    Max30102Agent --> vSensorTask
-    OledDisplay --> vDisplayTask
-    main --> vFirebaseTask
+```
+                         GuardPulse Software Architecture
++---------------------------------------------------------------------------------+
+|                          Core Logic & Tasks                                     |
+|                                                                                 |
+|  +----------+          +---------------+          +-------------+              |
+|  | main.cpp |          |  vSensorTask  |          | vDisplayTask|              |
+|  +-----+----+          +-------^-------+          +------^------+              |
+|        |                       |                         |                     |
++--------|----------+------------|---------+---------------|---------+-----------+
+         |          |            |         |               |         |
+         v          |            |         |               |         |
++------------------+|            |         |               |         |
+|vFirebaseUploadTask||            |         |               |         |
++------------------+|            |         |               |         |
+                    |            |         |               |         |
+         +----------+            |         |               |         |
+         |                       |         |               |         |
++--------|---------------+-------|---------+---------------|---------+-----------+
+|        |               |       |                         |                     |
+|  C++ Wrapper Agents    |       |                         |                     |
+|                        |       |                         |                     |
+|  +-------------------+ |  +---+--------------------+  +-+---------+          |
+|  |   Bmi160Agent.cpp | |  |  Max30102Agent.cpp     |  | oled.cpp  |          |
+|  +--------+----------+ |  +-----------+------------+  +-----+-----+          |
+|           |            |              |                      |                 |
++-----------+------------+--------------+----------------------+-----------------+
+            |                           |                      |
+            |  [wraps]                  |  [wraps]             | [I2C commands]
+            v                           v                      |
++---------------------------------------------------------------------------------+
+|                          Low-Level Drivers                                      |
+|                                                                                 |
+|  +---------------------+            +---------------------+                    |
+|  |  Bosch BMI160 C API |            | max30102.cpp        |                   |
+|  |                     |            | Registers           |                   |
+|  +----------+----------+            +----------+----------+                    |
+|             |                                  |                               |
+|             +------------------+---------------+                               |
+|                                |                                               |
+|                       +--------+-----------+                                   |
+|                       | Arduino Wire       |<---------[I2C commands]-----------+
+|                       | Library            |
+|                       +--------------------+
++---------------------------------------------------------------------------------+
 ```
 
 ### 4.2 FreeRTOS Concurrency Model
